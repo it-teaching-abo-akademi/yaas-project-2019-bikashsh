@@ -1027,7 +1027,7 @@ class UC10_BidConcurrencyTests(TestCase):
         response2 = self.client.post(reverse("auction:bid", args=(self.auction_id,)), {"new_price": 12})
         self.assertEqual(response1.status_code, 302)
         self.assertEqual(response2.status_code, 200)
-        self.assertIn(b"The auction information has been changed", response2.content)
+        self.assertIn(b"The auction information has been changed meanwhile, please place a higher bid", response2.content)
 
         # calculate points
         self.__class__.number_of_passed_tests += 1
@@ -1048,7 +1048,7 @@ class UC10_BidConcurrencyTests(TestCase):
         response2 = self.client.post(reverse("auction:bid", args=(self.auction_id,)), {"new_price": 15})
         self.assertEqual(response1.status_code, 302)
         self.assertEqual(response2.status_code, 200)
-        self.assertIn(b"The auction information has been changed", response2.content)
+        self.assertIn(b"The auction information has been changed meanwhile, please place a higher bid", response2.content)
 
         # calculate points
         self.__class__.number_of_passed_tests += 1
@@ -1298,8 +1298,8 @@ class WS2_BidAuctionApiTests(TestCase):
         data = {
             "new_price": 12
         }
-        self.client.post(reverse("signin"), self.user2Info)
         self.client.post(reverse("signup"), self.user2Info)
+        self.client.post(reverse("signin"), self.user2Info)
         self.client.force_authenticate(user=auth.get_user(self.client))
 
         response = self.client.post(reverse("bidauctionapi", args=(self.banned_item_id,)), data)
