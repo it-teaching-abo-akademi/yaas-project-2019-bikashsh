@@ -88,7 +88,7 @@ class UC1_SignUpTests(TestCase):
     def test_sign_up_with_invalid_username(self):
         """
         REQ1.1
-        Sign up with already taken username, should return status code 400.
+        Sign up with already taken username, should return status code 200.
         """
         context = {
             "username": "testUser1",
@@ -99,7 +99,7 @@ class UC1_SignUpTests(TestCase):
         response1 = self.client.post(reverse("signup"), context)
         # create another user with the same username
         response2 = self.client.post(reverse("signup"), context)
-        self.assertEqual(response2.status_code, 400)
+        self.assertEqual(response2.status_code, 200)
         self.assertIn(b"This username has been taken", response2.content)
 
         # calculate points
@@ -108,7 +108,7 @@ class UC1_SignUpTests(TestCase):
     def test_sign_up_with_invalid_email(self):
         """
         REQ1.1
-        Sign up with already taken email, should return status code 400.
+        Sign up with already taken email, should return status code 200.
         """
         user1Info = {
             "username": "testUser1",
@@ -124,7 +124,7 @@ class UC1_SignUpTests(TestCase):
         response1 = self.client.post(reverse("signup"), user1Info)
         # create another user with the same username
         response2 = self.client.post(reverse("signup"), user2Info)
-        self.assertEqual(response2.status_code, 400)
+        self.assertEqual(response2.status_code, 200)
         self.assertIn(b"This email has been taken", response2.content)
 
         # calculate points
