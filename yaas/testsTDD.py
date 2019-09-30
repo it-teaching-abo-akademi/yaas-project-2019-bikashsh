@@ -228,7 +228,7 @@ class UC3_CreateAuctionTests(TestCase):
 
     number_of_passed_tests = 0  # passed tests in this test case
     tests_amount = 7  # number of tests in this suite
-    points = 2  # points granted by this use case if all tests pass
+    points = 3  # points granted by this use case if all tests pass
 
     def setUp(self):
         self.userInfo = {
@@ -957,98 +957,6 @@ class UC9_ChangeLanguageTests(TestCase):
         response = self.client.get(reverse("changeLanguage", args=(lang_code,)))
         self.assertEqual(response.status_code, 200)
         self.assertIn(b"Language has been changed to English", response.content)
-
-        # calculate points
-        self.__class__.number_of_passed_tests += 1
-
-
-class UC10_BidConcurrencyTests(TestCase):
-    """UC10: Concurrency"""
-
-    number_of_passed_tests = 0  # passed tests in this test case
-    tests_amount = 2  # number of tests in this suite
-    points = 2  # points granted by this use case if all tests pass
-
-    def setUp(self):
-        self.user1Info = {
-            "username": "testUser1",
-            "password": "123",
-            "email": "user1@mail.com"
-        }
-
-        self.user2Info = {
-            "username": "testUser2",
-            "password": "321",
-            "email": "user2@mail.com"
-        }
-
-        self.user3Info = {
-            "username": "testUser3",
-            "password": "213",
-            "email": "user3@mail.com"
-        }
-
-        activeItemInfo = {
-            "title": "item1",
-            "description": "something",
-            "minimum_price": 10,
-            "deadline_date": (timezone.now() + timezone.timedelta(days=5)).strftime("%d.%m.%Y %H:%M:%S")
-        }
-
-        # create user1 and use it to create an auction
-        self.client.post(reverse("signup"), self.user1Info)
-        self.client.post(reverse("signin"), self.user1Info)
-        self.client.post(reverse("auction:create"), activeItemInfo)
-
-        # create 2 other users to test concurrent requests
-        self.client.post(reverse("signup"), self.user2Info)
-        self.client.post(reverse("signup"), self.user3Info)
-
-        # common variables
-        self.auction_id = 1
-
-        self.client.logout()
-
-    @classmethod
-    def tearDownClass(cls):
-        # check if test case passed or failed
-        calculate_points(cls.number_of_passed_tests, cls.tests_amount, cls.points, "UC10")
-
-    def test_bid_concurrently(self):
-        """
-        2 users bid on an auction concurrently, should return conflict message
-        """
-        # user2 bid on the auction, its bid and version have changed
-        self.client.post(reverse("signin"), self.user2Info)
-        response1 = self.client.post(reverse("auction:bid", args=(self.auction_id,)), {"new_price": 15})
-
-        # user3 bid on the old version of the auction, conflict happens
-        self.client.post(reverse("signin"), self.user3Info)
-        response2 = self.client.post(reverse("auction:bid", args=(self.auction_id,)), {"new_price": 12})
-        self.assertEqual(response1.status_code, 302)
-        self.assertEqual(response2.status_code, 200)
-        self.assertIn(b"The auction information has been changed meanwhile, please place a higher bid", response2.content)
-
-        # calculate points
-        self.__class__.number_of_passed_tests += 1
-
-    def test_bid_on_changed_description_auction(self):
-        """
-        An auction has a change in description while bidding, should return conflict message
-        """
-        data = {
-            "title": "item1",
-            "description": "new content"
-        }
-
-        self.client.post(reverse("signin"), self.user1Info)
-        response1 = self.client.post(reverse("auction:edit", args=(self.auction_id,)), data)
-
-        self.client.post(reverse("signin"), self.user2Info)
-        response2 = self.client.post(reverse("auction:bid", args=(self.auction_id,)), {"new_price": 15})
-        self.assertEqual(response1.status_code, 302)
-        self.assertEqual(response2.status_code, 200)
-        self.assertIn(b"The auction information has been changed meanwhile, please place a higher bid", response2.content)
 
         # calculate points
         self.__class__.number_of_passed_tests += 1
