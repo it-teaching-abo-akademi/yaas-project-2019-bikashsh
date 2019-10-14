@@ -941,7 +941,7 @@ class UC9_ChangeLanguageTests(TestCase):
         Change language to Swedish, response contains message
         """
         lang_code = "sv"
-        response = self.client.get(reverse("changeLanguage", args=(lang_code,)))
+        response = self.client.get(reverse("changeLanguage", args=(lang_code,)), follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertIn(b"Language has been changed to Swedish", response.content)
 
@@ -954,7 +954,7 @@ class UC9_ChangeLanguageTests(TestCase):
         Change language to Swedish, response contains message
         """
         lang_code = "en"
-        response = self.client.get(reverse("changeLanguage", args=(lang_code,)))
+        response = self.client.get(reverse("changeLanguage", args=(lang_code,)), follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertIn(b"Language has been changed to English", response.content)
 
