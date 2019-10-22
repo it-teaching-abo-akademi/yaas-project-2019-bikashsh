@@ -1,13 +1,16 @@
 from django.views import View
 from django.http import HttpResponse
+from django.shortcuts import render
 
 
-def index(request):
-    print(request.headers)
-    print("creating response...")
-    html = "<html><body>Hello! <br> <p> This was your request: %s %s <p> sent from the following browser: %s </body></html>" % (
-    request.method, request.path, request.headers['User-Agent'])
-    return HttpResponse(html)
+def index(response):
+    return render(response, "./auction/base.html", {})
+
+    #print(request.headers)
+    #print("creating response...")
+    #html = "<html><body>Hello! <br> <p> This was your request: %s %s <p> sent from the following browser: %s </body></html>" % (
+    #request.method, request.path, request.headers['User-Agent'])
+    #return HttpResponse(html)
 
 
 def search(request):
