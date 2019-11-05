@@ -1,0 +1,30 @@
+{% extends "auction/base.html" %}
+{% block title %} Auction{% endblock %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <h1>{{ head }}</h1>
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+<table class="data" border="1">
+        <th>Title</th>
+        <th>Description</th>
+        <th>Price</th>
+        <th>Deadline</th>
+        {% for i in data  %}
+
+            <tr>
+                <td>{{ i.title }}</td>
+                <td>{{ i.description }}</td>
+                <td>{{ i.min_price }}</td>
+                <td>{{ i.deadline }}</td>
+            </tr>
+        {% endfor %}
+</table>
+
+{% endblock %}

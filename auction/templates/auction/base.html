@@ -13,20 +13,41 @@
       <a class="navbar-brand" href="#">YAAS</a>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <a class="nav-item nav-link" href="/auction">Home</a>
-          <a class="nav-item nav-link" href="/login">SignIn</a>
-          <a class="nav-item nav-link" href="/signup">SignUp</a>
+
+            {% if user.is_authenticated %}
+                <p class="nav-item nav-link">Logged: {{ user.username }}</p>
+                <a class="nav-item nav-link" href="/auction">Home</a>
+                <a class="nav-item nav-link" href="/editprofile">Edit Profile</a>
+                <a class="nav-item nav-link" href="/auction/create">Create Auction</a>
+                <a class="nav-item nav-link" href="/signout">Logout</a>
+            {% else %}
+                <a class="nav-item nav-link" href="/signin">Login</a>
+                <a class="nav-item nav-link" href="/signup">Register</a>
+            {% endif %}
+
+
         </div>
       </div>
     </nav>
+    <br> <br>
+
 
     <div class="main" id="content" name="content">
         <div class="row justify-content-center">
             <div class="col-8">
             <h1 class="mt-2" style="text-align: center">Yet Another Auction Site</h1>
             <hr class="mt-0 mb-4">
+
             {% block content %}
-            <h1>Home</h1>
+                {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <li class="{{ message.tags }}">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+
+
             {% endblock %}
 
             </div>

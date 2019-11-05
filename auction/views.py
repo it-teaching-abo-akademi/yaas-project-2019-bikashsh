@@ -1,16 +1,14 @@
 from django.views import View
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from .models import Auction_list
+from . import forms
+from django.contrib import messages
 
 
-def index(response):
-    return render(response, "./auction/base.html", {})
-
-    #print(request.headers)
-    #print("creating response...")
-    #html = "<html><body>Hello! <br> <p> This was your request: %s %s <p> sent from the following browser: %s </body></html>" % (
-    #request.method, request.path, request.headers['User-Agent'])
-    #return HttpResponse(html)
+def index(request):
+    data=Auction_list.objects.all()
+    return render(request, './auction/home.html', {"head": "Auctions", "data": data})
 
 
 def search(request):
@@ -18,8 +16,20 @@ def search(request):
 
 
 class CreateAuction(View):
-    pass
+    form_class = forms.create_auction()
+    def get(self, request):
+        form = self.form_class
+        return render(request, './auction/create.html', {"head": "Create Auction", "form": form})
 
+    def post(self, request):
+        form = forms.create_auction(data=request.POST)
+        if form.is_valid:
+            form.save()
+            messages.add_message(request,messages.INFO, 'Auction Created!')
+            return redirect("/auction")
+        else:
+            print("hello")
+        return render(request, './auction/create.html', {"head": "Create Auction", "form": form})
 
 class EditAuction(View):
     pass

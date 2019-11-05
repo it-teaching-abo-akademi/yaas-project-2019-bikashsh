@@ -1,5 +1,5 @@
 {% extends "auction/base.html" %}
-{% block title %} Login Here{% endblock %}
+{% block title %} Update Profile{% endblock %}
 {% load crispy_forms_tags %}
 
 {% block content %}
@@ -14,7 +14,6 @@
     <form method="post" class="form-group">
     {% csrf_token %}
      {{ form | crispy }}
-        <button type="submit" class="btn btn-success"> Login </button>
-        <p>Don't have an account?<a href="/signup"> SignUp</a></p>
+        <button type="submit" class="btn btn-success"> Update</button>
     </form>
 {% endblock %}
