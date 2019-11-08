@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <style type="text/css">
+        .table{
+            text-align: center;
+            position: center;
+        }
+    </style>
     <meta charset="UTF-8">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -17,10 +23,12 @@
             {% if user.is_authenticated %}
                 <p class="nav-item nav-link">Logged: {{ user.username }}</p>
                 <a class="nav-item nav-link" href="/auction">Home</a>
+                <a class="nav-item nav-link" href="/auction/user_page">My page</a>
                 <a class="nav-item nav-link" href="/editprofile">Edit Profile</a>
                 <a class="nav-item nav-link" href="/auction/create">Create Auction</a>
                 <a class="nav-item nav-link" href="/signout">Logout</a>
             {% else %}
+                <a class="nav-item nav-link" href="/auction">Home</a>
                 <a class="nav-item nav-link" href="/signin">Login</a>
                 <a class="nav-item nav-link" href="/signup">Register</a>
             {% endif %}

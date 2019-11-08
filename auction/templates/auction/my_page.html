@@ -16,19 +16,17 @@
         <th>Description</th>
         <th>Price</th>
         <th>Deadline</th>
-        <th>Seller</th>
 
 
-
-        {% for i in data  %}
+        {% for i in user.user_auction.all  %}
 
             <tr>
                 <td>{{ i.title }}</td>
                 <td>{{ i.description }}</td>
                 <td>{{ i.min_price }}</td>
                 <td>{{ i.deadline }}</td>
-                <td>{{ i.user.username }}</td>
 
+                <td><button type="submit" class="btn btn-outline-info"><a href="{% url 'auction:edit' id=i.id %}"> Edit </button></td>
 
             </tr>
         {% endfor %}
