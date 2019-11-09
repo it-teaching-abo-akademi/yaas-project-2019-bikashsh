@@ -49,7 +49,7 @@ class CreateAuction(View):
             title = form.cleaned_data["title"]
             desc = form.cleaned_data["description"]
             price = form.cleaned_data["min_price"]
-            deadline = form.cleaned_data["deadline"]
+            deadline = form.cleaned_data["deadline"].strftime('%m.%d.%Y')
             list = Auction_list(title=title, description=desc, min_price=price, deadline=deadline)
             list.save()
             request.user.user_auction.add(list)
@@ -78,7 +78,7 @@ class EditAuction(View):
         return render(request, './auction/edit.html', {"head": "Edit Auction", "form": form})
 
     def post(self, request, id):
-        post = get_object_or_404(Auction_list, id = id)
+        post = get_object_or_404(Auction_list, id=id)
         form = forms.create_auction(data=request.POST, instance=post)
         if form.is_valid():
             form.save()

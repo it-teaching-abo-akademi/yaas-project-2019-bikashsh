@@ -26,7 +26,7 @@
                 <td>{{ i.title }}</td>
                 <td>{{ i.description }}</td>
                 <td>{{ i.min_price }}</td>
-                <td>{{ i.deadline }}</td>
+                <td>{{ i.deadline|date:"d.m.Y" }} {{ i.deadline|time:"H:i:s" }}</td>
                 <td>{{ i.user.username }}</td>
 
 
