@@ -6,21 +6,36 @@ from . import forms
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
+from django.db.models import Q
+
 
 
 
 def index(request):
     data=Auction_list.objects.all()
-    return render(request, './auction/home.html', {"head": "Auctions", "data": data})
+    return render(request, './auction/home.html', {"head": "All Auctions", "data": data})
 
 
 def search(request):
-    pass
+    if request.method == 'GET':
+        query = request.GET.get('term')
+        submitbutton = request.GET.get('submit')
+
+        if query is not None:
+            lookups = Q(title__iexact=query)
+            results = Auction_list.objects.filter(lookups)
+            context = {'results': results, 'submitbutton': submitbutton}
+            return render(request, './auction/search.html', context)
+        else:
+            return render(request, './auction/search.html')
+    else:
+        return render(request, './auction/search.html')
+
 
 
 def user_page(request):
     data=Auction_list.objects.all()
-    return render(request, './auction/my_page.html', {"head": "My Auctions", "data": data})
+    return render(request, './auction/my_page.html', {"head": "My Auction ", "data": data})
 
 class CreateAuction(View):
     form_class = forms.create_auction()

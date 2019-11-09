@@ -122,9 +122,11 @@ TIME_ZONE = 'EET'
 
 USE_I18N = True
 
-USE_L10N = False
+USE_L10N = True
 
 USE_TZ = True
+
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
@@ -141,8 +143,28 @@ LOGOUT_REDIRECT_URL = "/"
 #email settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'host'
-EMAIL_HOST_USER = 'user'
-EMAIL_HOST_PASSWORD = 'password'
+EMAIL_HOST = 'mail.utu.fi'
+EMAIL_HOST_USER = 'bikshr@utu.fi'
 EMAIL_PORT = 587
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+EMAIL_HOST_PASSWORD = 'Allthebest101'
+
 

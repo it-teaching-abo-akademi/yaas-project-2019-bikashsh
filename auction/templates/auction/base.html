@@ -21,7 +21,7 @@
         <div class="navbar-nav">
 
             {% if user.is_authenticated %}
-                <p class="nav-item nav-link">Logged: {{ user.username }}</p>
+                <p class="nav-item nav-link" style="color: yellow">Logged: {{ user.username }}</p>
                 <a class="nav-item nav-link" href="/auction">Home</a>
                 <a class="nav-item nav-link" href="/auction/user_page">My page</a>
                 <a class="nav-item nav-link" href="/editprofile">Edit Profile</a>
@@ -33,7 +33,10 @@
                 <a class="nav-item nav-link" href="/signup">Register</a>
             {% endif %}
 
-
+        <form action="{% url 'auction:search' %}" method="get" class= "form-inline" style="position: absolute; right: 10px">
+            <input name="term" type="text" placeholder="Search by title..." value="{{ request.GET.term }}"/>
+            <input type="submit" name="submit" value="Search">
+        </form>
         </div>
       </div>
     </nav>

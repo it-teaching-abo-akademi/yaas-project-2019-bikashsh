@@ -1,0 +1,37 @@
+{% extends "auction/base.html" %}
+{% block title %} Search Results{% endblock %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    {% if submitbutton == 'Search' and request.GET.term != '' %}
+        {% if results %}
+            <h1>Search results</h1>
+
+            <table class="table" border="1">
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Deadline</th>
+                    <th>Seller</th>
+
+                    {% for i in results  %}
+
+                        <tr>
+                            <td>{{ i.title }}</td>
+                            <td>{{ i.description }}</td>
+                            <td>{{ i.min_price }}</td>
+                            <td>{{ i.deadline }}</td>
+                            <td>{{ i.user.username }}</td>
+
+
+                        </tr>
+                    {% endfor %}
+            </table>
+
+
+        {% else %}
+            No search results!
+        {% endif %}
+    {% endif %}
+
+{% endblock %}
