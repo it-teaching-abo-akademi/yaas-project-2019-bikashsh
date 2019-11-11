@@ -26,6 +26,7 @@
                 <td>{{ i.description }}</td>
                 <td>{{ i.min_price }}</td>
                 <td>{{ i.deadline|date:"d.m.Y" }} {{ i.deadline|time:"H:i:s" }}</td>
+                <td><a href="{% url 'auction:edit' id=i.id%}">Bid</a></td>
 
                 <td><button type="submit" class="btn btn-outline-info"><a href="{% url 'auction:edit' id=i.id %}"> Edit </button></td>
 

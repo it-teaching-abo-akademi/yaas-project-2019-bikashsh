@@ -1,10 +1,15 @@
+{% load i18n %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ LANGUAGE_CODE }}">
 <head>
     <style type="text/css">
         .table{
             text-align: center;
             position: center;
+        }
+
+        .main{
+            margin-left: 10px;
         }
     </style>
     <meta charset="UTF-8">
@@ -19,22 +24,28 @@
       <a class="navbar-brand" href="#">YAAS</a>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-
             {% if user.is_authenticated %}
-                <p class="nav-item nav-link" style="color: yellow">Logged: {{ user.username }}</p>
-                <a class="nav-item nav-link" href="/auction">Home</a>
-                <a class="nav-item nav-link" href="/auction/user_page">My page</a>
-                <a class="nav-item nav-link" href="/editprofile">Edit Profile</a>
-                <a class="nav-item nav-link" href="/auction/create">Create Auction</a>
-                <a class="nav-item nav-link" href="/signout">Logout</a>
+                <p class="nav-item nav-link" style="color: yellow">{% trans "User" %}:{{ user.username }}</p>
+                <a class="nav-item nav-link" href="/auction">{% trans "Home" %}</a>
+                <a class="nav-item nav-link" href="/auction/user_page">{% trans "MyPage" %}</a>
+                <a class="nav-item nav-link" href="/editprofile">{% trans "EditProfile" %}</a>
+                <a class="nav-item nav-link" href="/auction/create">{% trans "Create Auction" %}</a>
+                <a class="nav-item nav-link" href="/signout">{% trans "Logout" %}</a>
             {% else %}
-                <a class="nav-item nav-link" href="/auction">Home</a>
-                <a class="nav-item nav-link" href="/signin">Login</a>
-                <a class="nav-item nav-link" href="/signup">Register</a>
+                <a class="nav-item nav-link" href="/auction">{% trans "Home" %}</a>
+                <a class="nav-item nav-link" href="/signin">{% trans "Login" %}</a>
+                <a class="nav-item nav-link" href="/signup">{% trans "Register" %}</a>
             {% endif %}
+            <div class = "nav-item nav-link">
+                <ul>Choose Language:
+                    <a href="{% url 'changeLanguage' 'en'%}">English</a>
+                    <a href="{% url 'changeLanguage' 'sv'%}">Swedish</a>
+                </ul>
+            </div>
+
 
         <form action="{% url 'auction:search' %}" method="get" class= "form-inline" style="position: absolute; right: 10px">
-            <input name="term" type="text" placeholder="Search by title..." value="{{ request.GET.term }}"/>
+            <input name="term" type="text" placeholder="Search by title" value="{{ request.GET.term }}"/>
             <input type="submit" name="submit" value="Search">
         </form>
         </div>
@@ -44,6 +55,8 @@
 
 
     <div class="main" id="content" name="content">
+
+
         <div class="row justify-content-center">
             <div class="col-8">
             <h1 class="mt-2" style="text-align: center">Yet Another Auction Site</h1>

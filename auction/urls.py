@@ -10,7 +10,7 @@ urlpatterns = [
     path('user_page/', views.user_page, name='user_page'),
     path('create/', views.CreateAuction.as_view(), name='create'),
     re_path(r'^edit/(?P<id>\d+)/$', views.EditAuction.as_view(), name='edit'),
-    re_path(r'^bid/(\d+)/$', views.bid, name='bid'),
-    re_path(r'^ban/(\d+)$', views.ban, name='ban'),
+    re_path(r'^bid/(?P<item_id>\d+)/$', views.bid, name='bid'),
+    re_path(r'^ban/(?P<ban_id>\d+)/$', views.ban, name='ban'),
     path('resolve/', views.resolve, name='resolve'),
 ]

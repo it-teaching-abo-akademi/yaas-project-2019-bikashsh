@@ -18,12 +18,15 @@ from django.contrib import admin
 import user.views
 import auction.views
 import auction.services
+from django.conf.urls.i18n import i18n_patterns
+from django.conf.urls import url
+from django.conf import settings
 
 urlpatterns = [
+    path('i18n/', include('django.conf.urls.i18n')),
     path('admin/', admin.site.urls),
     path('auction/', include('auction.urls', namespace='auction')),
     path('user/', include('user.urls', namespace='user')),
-    #path('register/', user.views.register, name='register'),
     path('', user.views.SignIn.as_view(), name='signin'),
     path('signup/', user.views.SignUp.as_view(), name='signup'),
     path('signin/', user.views.SignIn.as_view(), name='signin'),
@@ -40,3 +43,4 @@ urlpatterns += [
     re_path(r'^api/v1/searchid/(\d+)/$', auction.services.SearchAuctionApiById.as_view(), name='searchauctionbyidapi'),
     re_path(r'^api/v1/bid/(\d+)/$', auction.services.BidAuctionApi.as_view(), name='bidauctionapi'),
 ]
+

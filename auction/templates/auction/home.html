@@ -1,4 +1,6 @@
 {% extends "auction/base.html" %}
+{% load i18n %}
+
 {% block title %} Auction{% endblock %}
 {% load crispy_forms_tags %}
 
@@ -16,6 +18,8 @@
         <th>Description</th>
         <th>Price</th>
         <th>Deadline</th>
+        <th>Current Bid</th>
+        <th>Bidder</th>
         <th>Seller</th>
 
 
@@ -23,13 +27,18 @@
         {% for i in data  %}
 
             <tr>
-                <td>{{ i.title }}</td>
-                <td>{{ i.description }}</td>
-                <td>{{ i.min_price }}</td>
-                <td>{{ i.deadline|date:"d.m.Y" }} {{ i.deadline|time:"H:i:s" }}</td>
+                <td>{{ i.itemid.title }}</td>
+                <td>{{ i.itemid.description }}</td>
+                <td>{{ i.itemid.min_price }}</td>
+                <td>{{ i.itemid.deadline|date:"d.m.Y" }} {{ i.itemid.deadline|time:"H:i:s" }}</td>
+                <td>{{ i.bidprice }}</td>
                 <td>{{ i.user.username }}</td>
-
-
+                <td>{{ i.itemid.user.username }}</td>
+                <td><a href="{% url 'auction:bid' item_id=i.id%}">Bid</a></td>
+                {% if user.is_staff %}
+                <td><a href="{% url 'auction:ban' ban_id=i.id%}">Ban</a></td>
+                <td >{{ i.itemid.state }}</td>
+                {% endif %}
             </tr>
         {% endfor %}
 </table>

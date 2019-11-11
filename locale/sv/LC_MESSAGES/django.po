@@ -1,0 +1,28 @@
+msgid "You are in English page!"
+msgstr "Du ar pa svenska sidan!"
+
+msgid "User"
+msgstr "Anvandare"
+
+msgid "Home"
+msgstr "Hem"
+
+msgid "MyPage"
+msgstr "MinSida"
+
+msgid "EditProfile"
+msgstr "RedigeraProfil"
+
+msgid "Create Auction"
+msgstr "Skapa auktion"
+
+
+msgid "Logout"
+msgstr "logga ut"
+
+msgid "Login"
+msgstr "logga in"
+
+msgid "Register"
+msgstr "Registrera"
+
