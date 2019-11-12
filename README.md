@@ -52,7 +52,7 @@
 ## UC9: language switching
 ###### REQ9.1 Implemented (translates the navigation bar text and there are messages to check which pages are you in)
 ###### REQ9.2 Implemented
-###### REQ9.3 Not Implemented
+###### REQ9.3 Implemented
 ## UC10: concurrency(no test provided, verified manually)
 ###### REQ10.1 Not Implemented
 ## UC11: currency exchange

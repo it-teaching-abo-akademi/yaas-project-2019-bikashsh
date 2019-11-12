@@ -164,11 +164,11 @@ def ban(request, ban_id):
         #Email Bidder
         email_from = settings.EMAIL_HOST_USER
         recipient_list = [request.user.email,]
-        send_mail('Bidding Placed','Thank you for placing bid. We will notify if you win.',email_from,recipient_list,fail_silently=False,)
+        send_mail('Auction banned','The auction has been banned',email_from,recipient_list,fail_silently=False,)
         ##Email Seller
         email_from = settings.EMAIL_HOST_USER
         recipient_list = [auction.user.email,]
-        send_mail('Bidding Placed in your item','A bid has been placed in your item..',email_from,recipient_list,fail_silently=False,)
+        send_mail('Auction banned','The auction has been banned',email_from,recipient_list,fail_silently=False,)
 
         return HttpResponseRedirect('/auction')
     else:
@@ -199,11 +199,11 @@ def resolve(request):
                   ##Email Bidder
                   email_from = settings.EMAIL_HOST_USER
                   recipient_list = [bid.user.email,]
-                  send_mail('Congratulations','Congratulations you have won the bid. Please pay and enjoy.',email_from,recipient_list,fail_silently=False,)
-                #Email Seller
+                  send_mail('Auction resolved','The auction has been resolved',email_from,recipient_list,fail_silently=False,)
+                  #Email Seller
                   email_from = settings.EMAIL_HOST_USER
                   recipient_list = [auction.user.email,]
-                  send_mail('Item auctioned',('Your item has been won by '+str(bid.user.username)),email_from,recipient_list,fail_silently=False,)
+                  send_mail('Auction resolved','The auction has been resolved',email_from,recipient_list,fail_silently=False,)
 
                 resolved_auctions.append(item.title)
         content = {"resolved_auctions": resolved_auctions}
@@ -224,10 +224,15 @@ def changeLanguage(request, lang_code):
 
     if request.user.is_authenticated:
         language_preference = Language.objects.filter(user=request.user)
-        if language_preference is None:
-            language_preference.user_language = language_pref
-    # auctions = Auction_list.objects.filter(state="Active")
-    return render(request, './auction/home.html', {"head": "Active Auctions"})
+        if len(language_preference) > 0:
+            language_preference = language_preference[0]
+            language_preference.language_pref = lang_code
+        else:
+            language_preference = Language.objects.create(user=request.user, language_pref=lang_code)
+        language_preference.save()
+
+    auctions = Auction_list.objects.filter(state="A")
+    return render(request, './auction/home.html', {"head": "Active Auctions", 'auctions': auctions})
 
 def changeCurrency(request, currency_code):
     pass
